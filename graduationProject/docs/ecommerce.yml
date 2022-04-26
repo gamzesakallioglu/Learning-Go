@@ -1,0 +1,892 @@
+swagger: "2.0"
+info:
+  description: "This is a sample eCommerce server."
+  version: "1.0.0"
+  title: "Swagger eCommerce"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "gamzesakallioglu0@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: "/api/v1"
+tags:
+  - name: "user"
+    description: "Everything about Users"
+  - name: "customer"
+    description: "Everything about Customers"
+  - name: "productCategory"
+    description: "Everything about Product Categories"
+  - name: "product"
+    description: "Everything about Products"
+  - name: "shoppingCart"
+    description: "Everything about Shopping Carts"
+  - name: "order"
+    description: "Everything about Orders"
+
+schemes:
+  - "https"
+  - "http"
+paths:
+  /sing-up:
+    post:
+      tags:
+        - "customer"
+      summary: "Add a new customer to the store"
+      description: ""
+      operationId: "addCustomer"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Customer object that needs to be added to the store"
+          required: true
+          schema:
+            $ref: "#/definitions/Customer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CustomerSignUp"
+        "405":
+          description: "Invalid input"
+
+  /user/sign-up:
+    post:
+      tags:
+        - "user"
+      summary: "Create user"
+      description: "This can only be done by the logged in user."
+      operationId: "createUser"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Created user object"
+          required: true
+          schema:
+            $ref: "#/definitions/UserSignUp"
+      responses:
+        default:
+          description: "successful operation"
+
+  /user/login:
+    get:
+      tags:
+        - "user"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "loginUser"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /login:
+    get:
+      tags:
+        - "customer"
+      summary: "Logs customer into the system"
+      description: ""
+      operationId: "loginCustomer"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /productCategories:
+    get:
+      tags:
+        - "productCategory"
+      summary: "List Product Categories"
+      description: ""
+      operationId: "getProductCategories"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/ProductCategory"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /productCategories/:id:
+    delete:
+      tags:
+        - "productCategory"
+      summary: "Delete Product Category By ID"
+      description: ""
+      operationId: "deleteProductCategoryByID"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/ProductCategory"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+    
+  /productCategories:
+    post:
+      tags:
+        - "productCategory"
+      summary: "Create Bulk Product Categories"
+      description: ""
+      operationId: "createBulkProductCategories"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/ProductCategory"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /products:
+    get:
+      tags:
+        - "product"
+      summary: "List Products"
+      description: ""
+      operationId: "getProducts"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /products/:id:
+    delete:
+      tags:
+        - "product"
+      summary: "Delete Product By ID"
+      description: ""
+      operationId: "deleteProductByID"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+  
+  /products:/id:
+    put:
+      tags:
+        - "product"
+      summary: "Update a Product"
+      description: ""
+      operationId: "updateProductByID"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+
+  /products/:key:
+    get:
+      tags:
+        - "product"
+      summary: "Search Product by name or stock number"
+      description: ""
+      operationId: "searchProducts"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+    
+    
+  /products:
+    post:
+      tags:
+        - "product"
+      summary: "Create a Product"
+      description: ""
+      operationId: "createProducts"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /carts:
+    post:
+      tags:
+        - "shoppingCart"
+      summary: "AddProductToShoppingCart"
+      description: ""
+      operationId: "addProductToCart"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/ShoppingCart"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /carts:
+    put:
+      tags:
+        - "cart"
+      summary: "Update a product in shopping cart"
+      description: ""
+      operationId: "updateCartItem"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+  
+  /carts:
+    get:
+      tags:
+        - "shoppingCart"
+      summary: "List All Items In Shopping Cart"
+      description: ""
+      operationId: "listProductsInCart"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/ShoppingCart"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+  
+  /carts/item/:id:
+    post:
+      tags:
+        - "shoppingCart"
+      summary: "Delete an Item From Cart"
+      description: ""
+      operationId: "deleteItemFromCart"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/ShoppingCart"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /orders:
+    get:
+      tags:
+        - "order"
+      summary: "List Past Orders"
+      description: ""
+      operationId: "listOrders"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Order"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /orders:
+    post:
+      tags:
+        - "order"
+      summary: "Complete Order"
+      description: ""
+      operationId: "completeOrder"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Order"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /orders/cancel/:orderID:
+    get:
+      tags:
+        - "order"
+      summary: "Cancel An Order"
+      description: ""
+      operationId: "cancelOrder"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Order"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+  
+securityDefinitions:
+  ecommerce_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+
+
+definitions:
+
+  ProductCategory:
+    type: "object"
+    required:
+      - name
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      isParent:
+        type: "boolean"
+      parentID:
+        type: "string"
+
+  ShoppingCart:
+    type: "object"
+    required:
+      - product
+    properties:
+      id:
+        type: "string"
+      product:
+        type: "object"
+        $ref: "#/definitions/Product"
+      customer:
+        type: "object"
+        $ref: "#/definitions/Customer"
+      quantity:
+        type: "integer"
+
+  Order:
+    type: "object"
+    required:
+      - products
+      - phoneNumber
+      - address
+    properties:
+      id:
+        type: "string"
+      customer:
+        type: "object"
+        $ref: "#/definitions/Customer"
+      products:
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderProduct"
+      orderNumber:
+        type: "string"
+      orderDate:
+        type: "string"
+      shippingDate:
+        type: "string"
+      receiveDate:
+        type: "string"
+      cancelDate:
+        type: "string"
+      paymentDueDate:
+        type: "string"
+      paymentDate:
+        type: "string"
+      orderStatus:
+        type: "string"
+      paymentStatus:
+        type: "string"
+      paymentType:
+        type: "string"
+      phoneNumber:
+        type: "string"
+      address:
+        type: "string"
+      orderTotal:
+        type: "number"
+
+
+  OrderProduct:
+    type: "object"
+    properties:
+      product:
+        type: "object"
+        $ref: "#/definitions/Product"
+      quantity:
+        type: "integer"
+      pricePerItem:
+        type: "number"
+
+  CompleteOrder:
+    type: "object"
+    required:
+      - phoneNumber
+      - address
+    properties:
+      phoneNumber:
+        type: "string"
+      address:
+        type: "string"
+      paymentType:
+        type: "string"
+
+  Product:
+    type: "object"
+    required:
+      - name
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      price:
+        type: "number"
+      stockNumber:
+        type: "integer"
+      stockCode:
+        type: "string"
+      description:
+        type: "string"
+      category:
+        type: "object"
+        $ref: "#/definitions/ProductCategory"
+
+  Login:
+    type: "object"
+    required:
+      - email
+      - password
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+      details:
+        description: a (key, value) map.
+        type: object
+
+  CustomerSignUp:
+    type: "object"
+    required:
+      - name
+      - email
+      - password
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      address:
+        type: "string"
+      phone:
+        type: "string"
+
+  UserSignUp:
+    type: "object"
+    required:
+      - name
+      - email
+      - password
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "string"
+      role:
+        type: "string"
+
+  Customer:
+    type: "object"
+    required:
+      - name
+      - email
+      - password
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      address:
+        type: "string"
+      phone:
+        type: "string"
+      isPassive:
+        type: "boolean"
+
+  User:
+    type: "object"
+    required:
+      - name
+      - email
+      - password
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "string"
+      isPassive:
+        type: "boolean"

@@ -1,0 +1,6 @@
+name,description,isParent,parentID
+Style & Fashion,Style & Fashion products,true,0
+Electronics,Electronics products,true,0
+Furniture,Furniture products,true,0
+Health & Wellness,Health & Wellness products,true,0
+Pet Supplies,Pet Supplies products,true,0
